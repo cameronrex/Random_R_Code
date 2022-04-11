@@ -3,7 +3,6 @@ Random R Code from Exercises that I do in DataCamp
 
 tagged_answers %>%
 ### Aggregate by tag_name
-	### Aggregate by tag_name
     group_by(tag_name) %>%
 ### Summarize questions and average_answers
     summarize(questions = n(),

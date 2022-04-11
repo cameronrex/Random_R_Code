@@ -1,8 +1,18 @@
 # Random_R_Code
 Random R Code from Exercises that I do in DataCamp
 
+tagged_answers %>%
+### Aggregate by tag_name
+	### Aggregate by tag_name
+    group_by(tag_name) %>%
+### Summarize questions and average_answers
+    summarize(questions = n(),
+              average_answers = mean(n)) %>%
+### Sort the questions in descending order
+    arrange(desc(questions))
+
 stock_df %>% 
-  ### Pivot the data to create 3 new columns: year, week, price
+### Pivot the data to create 3 new columns: year, week, price
   pivot_longer(
     -company,
     names_to = c("year", "week"),
@@ -12,7 +22,7 @@ stock_df %>%
       year = as.integer,
       week = as.integer)
   ) %>%
-  ### Create a line plot with price per week, color by company
+### Create a line plot with price per week, color by company
   ggplot(aes(x = week, y = price, color = company)) +
   geom_line() +
   facet_grid(. ~ year)

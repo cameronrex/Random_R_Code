@@ -28,6 +28,7 @@ stock_df %>%
   facet_grid(. ~ year)
   
   complete(time= seq(from = min(time), to = max(time), by = "20 min"))
+
 ### Left join the Millennium Falcon colors to the Star Destroyer colors
 millennium_falcon_colors %>%
   left_join(star_destroyer_colors, by = c("color_id"), suffix = c("_falcon", "_star_destroyer"))

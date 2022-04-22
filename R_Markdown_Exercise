@@ -2,7 +2,7 @@
 title: "Investment Report for Projects in `r params$country`"
 output: 
   html_document:
-    css: styles.css  <-- This would reference an external .CSS file that shows styles. It would begin below on line 16 <style> and end at line 49 <style>.
+    css: styles.css  <-- This would reference an external .CSS file that shows styles. The external file would begin with line 16 <style> and end at line 49 <style>.
     toc: true
     toc_float: true
 date: "`r format(Sys.time(), '%d %B %Y')`"

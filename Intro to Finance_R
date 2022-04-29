@@ -1,0 +1,63 @@
+Here is a bit of code from the Intro to R for Finance course in DataCamp
+
+# Stock price
+stock_price <- 67.55
+
+repeat {
+  # New stock price
+  stock_price <- stock_price * .995
+  print(stock_price)
+  
+  # Check
+  if(stock_price < 66) {
+    print("Stock price is below 66! Buy it while it's cheap!")
+    break
+  }
+}
+
+# Microsoft test
+stocks$micr_buy <- ifelse(test = stocks$micr > 60 & stocks$micr < 62, yes = 1, no = 0)
+# Apple test
+stocks$apple_date <- ifelse(test = stocks$apple > 117, yes = stocks$date, no = NA)
+# Print stocks
+stocks
+# Change the class() of apple_date.
+class(stocks$apple_date) <- "Date"
+# Print stocks again
+stocks
+
+# View stocks dataframe
+stocks
+
+# Weekday investigation
+stocks$weekday <- weekdays(stocks$date)
+
+# View stocks again
+stocks
+
+# Print out corr
+corr
+
+# Create a nested loop
+for(row in 1:nrow(corr)) {
+    for(col in 1:ncol(corr)) {
+        print(paste(colnames(corr)[col], "and", rownames(corr)[row], 
+                    "have a correlation of", corr[row,col]))
+    }
+}
+
+
+# Remove missing data
+stocks_no_NA <- subset(stocks, !is.na(apple))
+
+# Apple and Microsoft joint range
+subset(stocks_no_NA, apple > 117 | micr > 63)
+
+# IBM buy range	
+stocks$ibm_buy_range <- (stocks$ibm > 171) & (stocks$ibm < 176)	
+# Panera spikes	
+stocks$panera_spike <- (stocks$panera < 213.20) | (stocks$panera > 216.50)	
+# Date range	
+stocks$good_dates <- (stocks$date > as.Date("2017-01-21")) & (stocks$date < as.Date("2017-01-25"))	
+# Print stocks	
+stocks	

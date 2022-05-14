@@ -6,13 +6,13 @@ pivot_longer() pivot_wider()
 complete() unnest_wider() unnest_longer()
 
 planet_df %>% 
-  # Unnest the moons list column over observations
+  ### Unnest the moons list column over observations
   unnest_longer(moons) %>% 
-  # Further unnest the moons column
+  ### Further unnest the moons column
   unnest_wider(moons) %>% 
-  # Unnest the moon_data column
+  ### Unnest the moon_data column
   unnest_wider(moon_data) %>% 
-  # Get the top five largest moons by radius
+  ### Get the top five largest moons by radius
   slice_max(radius, n = 5)
 
 sensor_df %>% 
@@ -165,24 +165,24 @@ bird_df %>%
 
 
 bond_df %>% 
-  # Pivot the data to long format
+  ### Pivot the data to long format
   pivot_longer(
     -Bond, 
-    # Overwrite the names of the two newly created columns
+    ### Overwrite the names of the two newly created columns
     names_to = "decade", 
     values_to = "n_movies", 
-    # Drop na values
+    ### Drop na values
     values_drop_na = TRUE, 
-    # Transform the decade column data type to integer
+    ### Transform the decade column data type to integer
     names_transform = list(decade = as.integer)) %>% 
   ggplot(aes(x = decade + 5, y = n_movies, fill = Bond))+
   geom_col()
 
 obesity_df %>% 
-  # Pivot the male and female columns
+  ### Pivot the male and female columns
   pivot_longer(c(male, female), names_to = "sex",
                values_to = "pct_obese") %>% 
-  # Create a scatter plot with pct_obese per country colored by sex
+  ### Create a scatter plot with pct_obese per country colored by sex
   ggplot(aes(x = pct_obese, color = sex,
              y = forcats::fct_reorder(country, both_sexes))) +
   geom_point() +
@@ -193,114 +193,114 @@ obesity_df %>%
 
 
 nuke_df %>% 
-  # Pivot the data to a longer format
+  ### Pivot the data to a longer format
   pivot_longer(
     -year, 
     # Overwrite the names of the two new columns
     names_to = "country", 
     values_to = "n_bombs") %>% 
-  # Replace NA values for n_bombs with 0L
+  ### Replace NA values for n_bombs with 0L
   replace_na(list(n_bombs = 0L)) %>% 
-  # Plot the number of bombs per country over time
+  ### Plot the number of bombs per country over time
   ggplot(aes(x = year, y = n_bombs, color = country)) +
   geom_line()
 
 drink_df %>% 
-  # Separate the ingredients over rows
+  ### Separate the ingredients over rows
   separate_rows(ingredients, sep = "; ") %>% 
-  # Separate ingredients into three columns
+  ### Separate ingredients into three columns
   separate(
     ingredients, 
     into = c("ingredient", "quantity", "unit"), 
     sep = " ", 
     convert = TRUE
   ) %>% 
-  # Group by ingredient and unit
+  ### Group by ingredient and unit
   group_by(ingredient, unit) %>% 
-  # Calculate the total quantity of each ingredient
+  ### Calculate the total quantity of each ingredient
   summarize(quantity = sum(quantity))
 
 select() filter() mutate() group_by()
 summarize() 
 
-# Remove parentheses from phone column
+### Remove parentheses from phone column
 phone_no_parens <- sfo_survey$phone %>%
-  # Remove "("s
+  ### Remove "("s
   str_remove_all(fixed("(")) %>%
-  # Remove ")"s
+  ### Remove ")"s
   str_remove_all(fixed(")"))
 
-# Add phone_no_parens as column
+### Add phone_no_parens as column
 sfo_survey %>%
   mutate(phone_no_parens = phone_no_parens,
   # Replace all hyphens in phone_no_parens with spaces
          phone_clean = str_replace_all(phone_no_parens, "-", " "))
 
 --------------------------------------------------------------------
-# XLConnect is already available
+### XLConnect is already available
 
-# Build connection to urbanpop.xlsx
+### Build connection to urbanpop.xlsx
 my_book <- loadWorkbook("urbanpop.xlsx")
 
-# Add a worksheet to my_book, named "data_summary"
+### Add a worksheet to my_book, named "data_summary"
 createSheet(my_book, "data_summary")
 
-# Create data frame: summ
+### Create data frame: summ
 sheets <- getSheets(my_book)[1:3]
 dims <- sapply(sheets, function(x) dim(readWorksheet(my_book, sheet = x)), USE.NAMES = FALSE)
 summ <- data.frame(sheets = sheets,
                    nrows = dims[1, ],
                    ncols = dims[2, ])
 
-# Add data in summ to "data_summary" sheet
+### Add data in summ to "data_summary" sheet
 writeWorksheet(my_book, summ, sheet = "data_summary")
 
-# Save workbook as summary.xlsx
+### Save workbook as summary.xlsx
 saveWorkbook(my_book, file = "summary.xlsx")
 
 --------------------------------------------------------------------
-# Turn data into correct dataframe format
+### Turn data into correct dataframe format
 film_by_character <- tibble(filmtitle = map_chr(sw_films, "title")) %>%
     mutate(filmtitle, characters = map(sw_films, "characters")) %>%
     unnest()
 
-# Pull out elements from sw_people
+### Pull out elements from sw_people
 sw_characters <- map_df(sw_people, `[`, c("height", "mass", "name", "url"))
 
-# Join the two new objects
+### Join the two new objects
 character_data <- inner_join(film_by_character, sw_characters, by = c("characters" = "url")) %>%
     # Make sure the columns are numbers
     mutate(height = as.numeric(height), mass = as.numeric(mass))
 
-# Plot the heights, faceted by film title
+### Plot the heights, faceted by film title
 ggplot(character_data, aes(x = height)) +
   geom_histogram(stat = "count") +
   facet_wrap(~ filmtitle)
 
 
 -----------------------------------------------------------------
-# List of 1, 2 and 3
+### List of 1, 2 and 3
 means <- list(1, 2, 3)
 
-# Create sites list
+### Create sites list
 sites <- list("north", "west", "east")
 
-# Map over two arguments: sites and means
+### Map over two arguments: sites and means
 list_of_files_map2 <- map2(sites, means, ~data.frame(sites = .x,
                            a = rnorm(mean = .y, n = 200, sd = (5/2))))
 
 list_of_files_map2
 
-# List of sites north, east, and west
+### List of sites north, east, and west
 sites <- list("north", "east", "west")
 
-# Create a list of dataframes, each with a years, a, and b column 
+### Create a list of dataframes, each with a years, a, and b column 
 list_of_df <-  map(sites,  
   ~list(sites = .x,
        a = rnorm(mean = 5, n = 200, sd = (5/2)),
        b = rnorm(mean = 200, n = 200, sd = 15)))
 
-# print list_of_df
+### print list_of_df
 list_of_df
 
 the Map function outputs a list. sometimes this can be use ful, but we may want a vector output instead.
